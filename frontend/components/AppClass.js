@@ -32,15 +32,6 @@ export default class AppClass extends React.Component {
     if(y === 7 ) return y - 4
     if(y === 8 ) return y - 5
   }
-    
-
-  getXYMessage = () => {
-    // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-    // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-    // returns the fully constructed string.
-
-    
-  }
 
   reset = () => {
     this.setState({
@@ -118,22 +109,21 @@ export default class AppClass extends React.Component {
       }
      
       errorHelper = (direction) => {
-        if(direction === 'left' && this.state.initialIndex === 0) return "you can't go left"
-        if(direction === 'left' && this.state.initialIndex === 3) return "you can't go left"
-        if(direction === 'left' && this.state.initialIndex === 6) return "you can't go left"
+        if(direction === 'left' && this.state.initialIndex === 0) return "You can't go left"
+        if(direction === 'left' && this.state.initialIndex === 3) return "You can't go left"
+        if(direction === 'left' && this.state.initialIndex === 6) return "You can't go left"
 
-        if(direction === 'up' && this.state.initialIndex === 0) return "you can't go up"
-        if(direction === 'up' && this.state.initialIndex === 1) return "you can't go up"
-        if(direction === 'up' && this.state.initialIndex === 2) return "you can't go up"
+        if(direction === 'up' && this.state.initialIndex === 0) return "You can't go up"
+        if(direction === 'up' && this.state.initialIndex === 1) return "You can't go up"
+        if(direction === 'up' && this.state.initialIndex === 2) return "You can't go up"
 
-        if(direction === 'down' && this.state.initialIndex === 6) return "you can't go down"
-        if(direction === 'down' && this.state.initialIndex === 7) return "you can't go down"
-        if(direction === 'down' && this.state.initialIndex === 8) return "you can't go down"
+        if(direction === 'down' && this.state.initialIndex === 6) return "You can't go down"
+        if(direction === 'down' && this.state.initialIndex === 7) return "You can't go down"
+        if(direction === 'down' && this.state.initialIndex === 8) return "You can't go down"
 
-        if(direction === 'right' && this.state.initialIndex === 2) return "you can't go right"
-        if(direction === 'right' && this.state.initialIndex === 5) return "you can't go right"
-        if(direction === 'right' && this.state.initialIndex === 8) return "you can't go right"
-        
+        if(direction === 'right' && this.state.initialIndex === 2) return "You can't go right"
+        if(direction === 'right' && this.state.initialIndex === 5) return "You can't go right"
+        if(direction === 'right' && this.state.initialIndex === 8) return "You can't go right"
       }
       
     
@@ -162,12 +152,11 @@ export default class AppClass extends React.Component {
 
   render() {
     const { className } = this.props
-    this.getXYMessage()
     return (
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">Coordinates ({this.getX(this.state.initialIndex)}, {this.getY(this.state.initialIndex)})</h3>
-          <h3 id="steps">You moved {this.state.initialSteps} times</h3>
+          <h3 id="steps">You moved {this.state.initialSteps} {this.state.initialSteps === 1 ? 'time' :'times'}</h3>
         </div>
         <div id="grid">
           {
