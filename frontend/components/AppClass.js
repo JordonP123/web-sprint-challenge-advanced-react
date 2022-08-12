@@ -38,7 +38,7 @@ export default class AppClass extends React.Component {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    axios.get
+
     
   }
 
@@ -89,6 +89,8 @@ export default class AppClass extends React.Component {
         if(direction === 'left' && this.state.initialIndex === 5) return this.state.initialSteps + 1
         if(direction === 'left' && this.state.initialIndex === 8) return this.state.initialSteps + 1
 
+
+
         if(direction === 'right' && this.state.initialIndex === 0) return this.state.initialSteps + 1
         if(direction === 'right' && this.state.initialIndex === 3) return this.state.initialSteps + 1
         if(direction === 'right' && this.state.initialIndex === 6) return this.state.initialSteps + 1
@@ -115,6 +117,24 @@ export default class AppClass extends React.Component {
         else return this.state.initialSteps
       }
      
+      errorHelper = (direction) => {
+        if(direction === 'left' && this.state.initialIndex === 0) return "you can't go left"
+        if(direction === 'left' && this.state.initialIndex === 3) return "you can't go left"
+        if(direction === 'left' && this.state.initialIndex === 6) return "you can't go left"
+
+        if(direction === 'up' && this.state.initialIndex === 0) return "you can't go up"
+        if(direction === 'up' && this.state.initialIndex === 1) return "you can't go up"
+        if(direction === 'up' && this.state.initialIndex === 2) return "you can't go up"
+
+        if(direction === 'down' && this.state.initialIndex === 6) return "you can't go down"
+        if(direction === 'down' && this.state.initialIndex === 7) return "you can't go down"
+        if(direction === 'down' && this.state.initialIndex === 8) return "you can't go down"
+
+        if(direction === 'right' && this.state.initialIndex === 2) return "you can't go right"
+        if(direction === 'right' && this.state.initialIndex === 5) return "you can't go right"
+        if(direction === 'right' && this.state.initialIndex === 8) return "you can't go right"
+        
+      }
       
     
   
@@ -127,7 +147,8 @@ export default class AppClass extends React.Component {
         initialIndex: this.getNextIndex(evt.target.id),
         initialSteps: this.helperSteps(evt.target.id) ,
         xValue: this.getX(this.state.initialIndex),
-        yValue: this.getY(this.state.initialIndex)
+        yValue: this.getY(this.state.initialIndex),
+        initialMessage: this.errorHelper(evt.target.id)
       })
   }
 
@@ -141,6 +162,7 @@ export default class AppClass extends React.Component {
 
   render() {
     const { className } = this.props
+    this.getXYMessage()
     return (
       <div id="wrapper" className={className}>
         <div className="info">
@@ -157,7 +179,7 @@ export default class AppClass extends React.Component {
           }
         </div>
         <div className="info">
-          <h3 id="message"></h3>
+          <h3 id="message">{this.state.initialMessage}</h3>
         </div>
         <div id="keypad">
           <button onClick={this.move} id="left">LEFT</button>
