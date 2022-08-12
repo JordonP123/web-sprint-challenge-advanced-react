@@ -22,15 +22,14 @@ export default class AppClass extends React.Component {
   } 
 
   getY = (y) => {
-    if(this.state.initialIndex === 0 ) return y + 1
-    if(this.state.initialIndex === 1 ) return y 
-    if(this.state.initialIndex === 2 ) return y - 1
-    if(this.state.initialIndex === 3 ) return y - 1
-    if(this.state.initialIndex === 4 ) return y - 2
-    if(this.state.initialIndex === 5 ) return y - 3
-    if(this.state.initialIndex === 6 ) return y - 3
-    if(this.state.initialIndex === 7 ) return y - 4
-    if(this.state.initialIndex === 8 ) return y - 5
+    if(y === 0 ) return y + 1
+    if(y === 1 ) return y 
+    if(y === 2 || y === 3 ) return y - 1
+    if(y === 4 ) return y -2
+    if(y === 5 ) return y - 3
+    if(y === 6 ) return y - 3
+    if(y === 7 ) return y - 4
+    if(y === 8 ) return y - 5
   }
     
 
@@ -76,6 +75,7 @@ export default class AppClass extends React.Component {
     if(direction === 'right')return  this.state.initialIndex +1
     if(direction === 'up')return  this.state.initialIndex -3
     if(direction === 'down')return  this.state.initialIndex +3
+
     }
 
   
@@ -105,7 +105,7 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates ({this.state.xValue},{this.state.yValue})</h3>
+          <h3 id="coordinates">Coordinates ({this.getX(this.state.initialIndex)},{this.getY(this.state.initialIndex)})</h3>
           <h3 id="steps">You moved {this.state.initialSteps} times</h3>
         </div>
         <div id="grid">
