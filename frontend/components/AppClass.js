@@ -8,15 +8,29 @@ export default class AppClass extends React.Component {
   initialEmail: '',
   initialSteps: 0,
   initialIndex: 4,
-  xValue: 0,
-  yValue: 0,
+  xValue: 2,
+  yValue: 2
   }
 
-  getXY = () => {
+  getX = (x) => {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
     //gett coordinates based on index and set them to state in getNextIndex
-    console.log( )
+    if(x === 0 || x === 1 || x === 2) return x + 1
+    if(x === 3 || x === 4 || x === 5) return x - 2
+    if(x === 6 || x === 7 || x === 8) return x - 5
+  } 
+
+  getY = (y) => {
+    if(this.state.initialIndex === 0 ) return y + 1
+    if(this.state.initialIndex === 1 ) return y 
+    if(this.state.initialIndex === 2 ) return y - 1
+    if(this.state.initialIndex === 3 ) return y - 1
+    if(this.state.initialIndex === 4 ) return y - 2
+    if(this.state.initialIndex === 5 ) return y - 3
+    if(this.state.initialIndex === 6 ) return y - 3
+    if(this.state.initialIndex === 7 ) return y - 4
+    if(this.state.initialIndex === 8 ) return y - 5
   }
     
 
@@ -33,8 +47,8 @@ export default class AppClass extends React.Component {
         initialEmail: '',
         initialSteps: 0,
         initialIndex: 4,
-        xvalue: 0,
-        yvalue: 0,
+        xValue: 2,
+        yValue: 2,
     })
   }
 
@@ -72,9 +86,10 @@ export default class AppClass extends React.Component {
       
       this.setState({...this.state, 
         initialIndex : this.getNextIndex(evt.target.id),
+        initialSteps: this.state.initialSteps + 1,
+        xValue: this.getX(this.state.initialIndex),
+        yValue: this.getY(this.state.initialIndex)
       })
-
-
   }
 
   onChange = (evt) => {
@@ -86,12 +101,11 @@ export default class AppClass extends React.Component {
   }
 
   render() {
-    console.log(this.getXY())
     const { className } = this.props
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates (2, 2)</h3>
+          <h3 id="coordinates">Coordinates ({this.state.xValue},{this.state.yValue})</h3>
           <h3 id="steps">You moved {this.state.initialSteps} times</h3>
         </div>
         <div id="grid">
