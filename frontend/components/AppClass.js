@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 export default class AppClass extends React.Component {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
@@ -37,6 +38,7 @@ export default class AppClass extends React.Component {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
+    axios.get
     
   }
 
@@ -78,6 +80,43 @@ export default class AppClass extends React.Component {
 
     }
 
+     
+      helperSteps = (direction) => { 
+        if(direction === 'left' && this.state.initialIndex === 1) return this.state.initialSteps + 1
+        if(direction === 'left' && this.state.initialIndex === 4) return this.state.initialSteps + 1
+        if(direction === 'left' && this.state.initialIndex === 7) return this.state.initialSteps + 1
+        if(direction === 'left' && this.state.initialIndex === 2) return this.state.initialSteps + 1
+        if(direction === 'left' && this.state.initialIndex === 5) return this.state.initialSteps + 1
+        if(direction === 'left' && this.state.initialIndex === 8) return this.state.initialSteps + 1
+
+        if(direction === 'right' && this.state.initialIndex === 0) return this.state.initialSteps + 1
+        if(direction === 'right' && this.state.initialIndex === 3) return this.state.initialSteps + 1
+        if(direction === 'right' && this.state.initialIndex === 6) return this.state.initialSteps + 1
+        if(direction === 'right' && this.state.initialIndex === 1) return this.state.initialSteps + 1
+        if(direction === 'right' && this.state.initialIndex === 4) return this.state.initialSteps + 1
+        if(direction === 'right' && this.state.initialIndex === 7) return this.state.initialSteps + 1
+
+        if(direction === 'up' && this.state.initialIndex === 3) return this.state.initialSteps + 1
+        if(direction === 'up' && this.state.initialIndex === 4) return this.state.initialSteps + 1
+        if(direction === 'up' && this.state.initialIndex === 5) return this.state.initialSteps + 1
+        if(direction === 'up' && this.state.initialIndex === 6) return this.state.initialSteps + 1
+        if(direction === 'up' && this.state.initialIndex === 7) return this.state.initialSteps + 1
+        if(direction === 'up' && this.state.initialIndex === 8) return this.state.initialSteps + 1
+      
+
+        if(direction === 'down' && this.state.initialIndex === 0) return this.state.initialSteps + 1
+        if(direction === 'down' && this.state.initialIndex === 1) return this.state.initialSteps + 1
+        if(direction === 'down' && this.state.initialIndex === 2) return this.state.initialSteps + 1
+        if(direction === 'down' && this.state.initialIndex === 3) return this.state.initialSteps + 1
+        if(direction === 'down' && this.state.initialIndex === 4) return this.state.initialSteps + 1
+        if(direction === 'down' && this.state.initialIndex === 5) return this.state.initialSteps + 1
+     
+
+        else return this.state.initialSteps
+      }
+     
+      
+    
   
 
   move = (evt) => {
@@ -85,8 +124,8 @@ export default class AppClass extends React.Component {
     // and change any states accordingly.}
       
       this.setState({...this.state, 
-        initialIndex : this.getNextIndex(evt.target.id),
-        initialSteps: this.state.initialSteps + 1,
+        initialIndex: this.getNextIndex(evt.target.id),
+        initialSteps: this.helperSteps(evt.target.id) ,
         xValue: this.getX(this.state.initialIndex),
         yValue: this.getY(this.state.initialIndex)
       })
@@ -105,7 +144,7 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates ({this.getX(this.state.initialIndex)},{this.getY(this.state.initialIndex)})</h3>
+          <h3 id="coordinates">Coordinates ({this.getX(this.state.initialIndex)}, {this.getY(this.state.initialIndex)})</h3>
           <h3 id="steps">You moved {this.state.initialSteps} times</h3>
         </div>
         <div id="grid">
