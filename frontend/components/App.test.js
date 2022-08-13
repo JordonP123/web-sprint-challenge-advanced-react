@@ -9,8 +9,6 @@ import '@testing-library/jest-dom/extend-expect'
 // })
 
 
-
-
 describe('5 tests for MVP', () => {
   test('Should render Cooridinates and "You moved X times"', () => {
     render(<AppClass />)
@@ -40,6 +38,23 @@ describe('5 tests for MVP', () => {
     fireEvent.change(email, { target: { value: 'jordon@gmail.com' } })
         expect(email).toHaveValue('jordon@gmail.com')
 })
+  test('can submit email', ()=> {
+    render(<AppClass/>)
+    const email = document.querySelector('#email')
+    const submit = document.querySelector('#submit')
+    fireEvent.change(email, { target: { value: 'jordon@gmail.com' } })
+        expect(email).toHaveValue('jordon@gmail.com')
+    fireEvent.click(submit)
+  })
+    test('clicking up, down moves increases the steps by two', ()=> {
+      render(<AppClass/>)
+      const up = document.querySelector('#up')
+      const down = document.querySelector('#down')
+      fireEvent.click(up)
+      fireEvent.click(down)
+      const step = screen.getByText(/You moved 2 times/i)
+      expect(step).toBeInTheDocument()
+    })
 })
 
 
