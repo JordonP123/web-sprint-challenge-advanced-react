@@ -1,11 +1,5 @@
 import React, { useState} from 'react'
-
-
-// Suggested initial states
-const initialMessage = ''
-const initialEmail = ''
-const initialSteps = 0
-const initialIndex = 4 // the index the "B" is at
+import axios from 'axios'
 
 export default function AppFunctional(props) {
   const [state, setState] = useState({
@@ -49,9 +43,9 @@ export default function AppFunctional(props) {
     }
   
     const getNextIndex = (direction) => {
-      // This helper takes a direction ("left", "up", etc) and calculates what the next index
+      //  helper takes a direction ("left", "up", etc) and calculates what the next index
       // of the "B" would be. If the move is impossible because we are at the edge of the grid,
-      // this helper should return the current index unchanged.
+      //  helper should return the current index unchanged.
       if(direction === 'left' && state.initialIndex === 0) return state.initialIndex
       if(direction === 'left' && state.initialIndex === 3) return state.initialIndex
       if(direction === 'left' && state.initialIndex === 6) return state.initialIndex
@@ -129,12 +123,10 @@ export default function AppFunctional(props) {
           if(direction === 'right' && state.initialIndex === 5) return "You can't go right"
           if(direction === 'right' && state.initialIndex === 8) return "You can't go right"
         }
-        
-      
     
   
     const move = (evt) => {
-      // This event handler can use the helper above to obtain a new index for the "B",
+      //  event handler can use the helper above to obtain a new index for the "B",
       // and change any states accordingly.}
         
         setState({...state, 
@@ -142,17 +134,33 @@ export default function AppFunctional(props) {
           initialSteps: helperSteps(evt.target.id) ,
           xValue: getX(state.initialIndex),
           yValue: getY(state.initialIndex),
-          initialMessage: errorHelper(evt.target.id)
+          initialMessage: errorHelper(evt.target.id),
+    
     })
     }
   
     const onChange = (evt) => {
-      // You will need this to update the value of the input.
+      setState({...state, initialEmail: evt.target.value })
     }
   
     const onSubmit = (evt) => {
       // Use a POST request to send a payload to the server.
+      evt.preventDefault()
+  
+      const dataToPost = {
+        x: getX(state.initialIndex),
+        y: getY(state.initialIndex),
+        steps: state.initialSteps,
+        email: state.initialEmail
+      }
+  
+      axios.post(`http://localhost:9000/api/result`, dataToPost)
+      .then(res => setState({...state, initialMessage: [res.data.message], initialEmail: ''}))
+      .catch(res => setState({...state, initialMessage: res.response.data.message}))
     }
+    
+  
+ 
       const { className } = props
       return (
         <div id="wrapper" className={className}>
@@ -179,10 +187,11 @@ export default function AppFunctional(props) {
             <button onClick={move} id="down">DOWN</button>
             <button onClick={reset} id="reset">reset</button>
           </div>
-          <form>
-            <input id="email" type="email" placeholder="type email"></input>
+          <form onSubmit={onSubmit}>
+            <input onChange={onChange} value={state.initialEmail}  id="email" type="email" placeholder="type email"></input>
             <input id="submit" type="submit"></input>
           </form>
         </div>
       )
-    }
+          }
+    

@@ -126,28 +126,51 @@ export default class AppClass extends React.Component {
         if(direction === 'right' && this.state.initialIndex === 8) return "You can't go right"
       }
       
-    
+      // emailHelper = () => {
+      //   if(this.state.initialEmail === '') return 'Ouch: email is required'
+      //   if(this.state.initialEmail === 'foo@bar.baz') return 'foo@bar.baz failure #71'
+      //   if(this.state.initialEmail === 'bad@email') return 'Ouch: email must be a valid email'
+      // }
+
+      reRenderInput = () => {
+        this.setState({...this.state, initialEmail: '' })
+      }
   
 
   move = (evt) => {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.}
-      
       this.setState({...this.state, 
         initialIndex: this.getNextIndex(evt.target.id),
         initialSteps: this.helperSteps(evt.target.id) ,
         xValue: this.getX(this.state.initialIndex),
         yValue: this.getY(this.state.initialIndex),
-        initialMessage: this.errorHelper(evt.target.id)
+        initialMessage: this.errorHelper(evt.target.id),
       })
   }
 
   onChange = (evt) => {
-    // You will need this to update the value of the input.
+    const { value } = evt.target
+    this.setState({...this.state, initialEmail: value })
   }
 
   onSubmit = (evt) => {
     // Use a POST request to send a payload to the server.
+    evt.preventDefault()
+
+    const dataToPost = {
+      x: this.getX(this.state.initialIndex),
+      y: this.getY(this.state.initialIndex),
+      steps: this.state.initialSteps,
+      email: this.state.initialEmail
+    }
+
+    axios.post(`http://localhost:9000/api/result`, dataToPost)
+    .then(res => this.setState({...this.state, initialMessage: [res.data.message], initialEmail: ''}))
+    .catch(res => this.setState({...this.state, initialMessage: res.response.data.message}))
+
+    
+
   }
 
   render() {
@@ -177,8 +200,8 @@ export default class AppClass extends React.Component {
           <button onClick={this.move} id="down">DOWN</button>
           <button onClick={this.reset} id="reset">reset</button>
         </div>
-        <form>
-          <input id="email" type="email" placeholder="type email"></input>
+        <form onSubmit={this.onSubmit}>
+          <input onChange={this.onChange} data-testid='email' value={this.state.initialEmail} id="email" type="email" placeholder="type email"></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
