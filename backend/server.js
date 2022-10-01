@@ -14,7 +14,7 @@ server.use(cors())
 
 server.post('/api/result', async (req, res) => {
   const [status, payload] = await buildResponse(req)
-  res.status(status).json(payload)
+  res.status(status).json(payload) 
 })
 
 server.get('*', (req, res) => {
